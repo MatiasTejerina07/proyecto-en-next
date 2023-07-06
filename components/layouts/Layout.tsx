@@ -1,5 +1,6 @@
 import { FunctionComponent, ReactNode } from 'react';
 import Head from "next/head"
+import { Navbar } from '../ui';
 
 type props = {
     children: ReactNode,
@@ -12,10 +13,10 @@ export const Layout: FunctionComponent<props> = ({ children, title }) => {
             <Head>
                 <title>{title || "Pokemon App"}</title>
                 <meta name="author" content="Mat Tejerina" />
-                <meta name="description" content="Información sobre pokemon XXXXXX" />
-                <meta name="keywords" content="XXXX, pokemon, pokedex" />
+                <meta name="description" content={`Información sobre el pokémon${title}`} />
+                <meta name="keywords" content={`${title}, pokemon, pokedex`} />
             </Head>
-            {/* Navbar */}
+            <Navbar />
             <main>
                 {children}
             </main>
