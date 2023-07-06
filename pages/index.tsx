@@ -2,6 +2,7 @@ import { Layout } from "@/components/layouts"
 import { NextPage, GetStaticProps } from "next"
 import { pokeApi } from "@/api"
 import { Pokemones, SmallPokemon } from "@/interfaces";
+import { Card, Grid, Row, Text } from "@nextui-org/react";
 
 interface Props {
   pokemons: SmallPokemon[]
@@ -11,23 +12,32 @@ const HomePage: NextPage<Props> = ({ pokemons }) => {
   console.log(pokemons);
   return (
     <Layout>
-      <div className="w-screen h-screen flex-col flex justify-center items-center">
-        <section className="h-full">
-          <ul>
+      <div className="w-screen h-screen flex justify-center items-center">
+        <section className="h-full flex justify-center">
+          <Grid.Container className="flex justify-center items-center mt-4">
             {
               pokemons && pokemons.map(({ id, name, img, }) => (
-                <>
-                  <li key={id}>
-                    #{id} - {name}
-                  </li>
-                  <li>
-
-                  </li>
-                </>
+                <Grid className="w-32 h-28 m-1" key={id}>
+                  <Card isHoverable>
+                    <Card.Body css={{ p: 1 }}>
+                      <Card.Image
+                        src={img}
+                        width={50}
+                        height={50}
+                      />
+                    </Card.Body>
+                    <Card.Footer>
+                      <Row className="flex justify-between">
+                        <Text>{name}</Text>
+                        <Text>#{id}</Text>
+                      </Row>
+                    </Card.Footer>
+                  </Card>
+                </Grid>
               ))
             }
 
-          </ul>
+          </Grid.Container>
         </section>
 
       </div>
