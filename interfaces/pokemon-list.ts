@@ -8,6 +8,6 @@ export interface Pokemones {
 export interface SmallPokemon {
     name: string;
     url: string;
-    uid: number,
+    id: number,
     img: string
 }
