@@ -2,6 +2,7 @@ import { pokeApi } from '@/api';
 import { Layout } from '@/components/layouts'
 import { PropiedadesPokemon } from '@/interfaces';
 import { NextPage, GetStaticProps, GetStaticPaths } from 'next';
+import Image from 'next/image';
 import { useRouter } from 'next/router'
 import React from 'react'
     ;
@@ -17,9 +18,21 @@ const PokemonPage: NextPage<Props> = ({ pokemon }) => {
     console.log(pokemon);
 
     return (
+
         <Layout>
-            <h1>{pokemon.name}</h1>
+            <div className='flex justify-around'>
+                <div>
+                    <h1>{pokemon.name}</h1>
+                    <Image alt='' src={pokemon.sprites.other?.dream_world.front_default || ""} width={70} height={70} />
+                </div>
+                <div>
+                    <Image alt='front' src={pokemon.sprites.front_default} width={40} height={40} />
+                    <Image alt='default' src={pokemon.sprites.back_default} width={40} height={40} />
+                    <Image alt='front-shiny' src={pokemon.sprites.front_shiny} width={40} height={40} />
+                </div>
+            </div>
         </Layout>
+
     )
 }
 // You should use getStaticPaths if you’re statically pre-rendering pages that use dynamic routes
