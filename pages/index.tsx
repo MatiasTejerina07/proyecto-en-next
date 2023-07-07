@@ -22,7 +22,6 @@ const HomePage: NextPage<Props> = ({ pokemons }) => {
           }
 
         </section>
-
       </div>
 
     </Layout >
