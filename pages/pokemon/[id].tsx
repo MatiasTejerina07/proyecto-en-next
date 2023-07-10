@@ -82,7 +82,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     return {
         props: {
             pokemon: data
-        }
+        },
+        revalidate: 86400,
     }
 }
 
