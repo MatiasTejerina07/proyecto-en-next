@@ -1,10 +1,11 @@
 import { pokeApi } from '@/api';
 import { Layout } from '@/components/layouts'
-import { PropiedadesPokemon } from '@/interfaces';
+import { Pokemones, PropiedadesPokemon } from '@/interfaces';
 import { localFavorites } from '@/utils';
 import { NextPage, GetStaticProps, GetStaticPaths } from 'next';
 import Image from 'next/image';
 import React, { useState } from 'react'
+
     ;
 
 
@@ -13,7 +14,7 @@ interface Props {
     pokemon: PropiedadesPokemon
 }
 
-const PokemonPage: NextPage<Props> = ({ pokemon }) => {
+const PokemonByNamePage: NextPage<Props> = ({ pokemon }) => {
 
     const [isFavorite, setIsFavorite] = useState<boolean>(localFavorites.existInFavorites(pokemon.id))
 
@@ -61,10 +62,11 @@ const PokemonPage: NextPage<Props> = ({ pokemon }) => {
 
 export const getStaticPaths: GetStaticPaths = async (ctx) => {
 
-    const pokemons = [...Array(151)].map((value, index) => `${index + 1}`)
+    const { data } = await pokeApi.get<Pokemones>('/pokemon?limit=151')
+    const pokemonNames: string[] = data.results.map(pokemon => pokemon.name)
     return {
-        paths: pokemons.map(id => ({
-            params: { id }
+        paths: pokemonNames.map(name => ({
+            params: { name }
         })),
         fallback: false
     }
@@ -77,15 +79,20 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
 
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-    const { id } = params as { id: string }
-    const { data } = await pokeApi.get<PropiedadesPokemon>(`pokemon/${id}`)
+    const { name } = params as { name: string }
+    const { data } = await pokeApi.get<PropiedadesPokemon>(`pokemon/${name}`)
+    const pokemon = {
+        id: data.id,
+        name: data.name,
+        sprites: data.sprites
+    }
     return {
         props: {
-            pokemon: data
+            pokemon
         }
     }
 }
 
 
 
-export default PokemonPage
+export default PokemonByNamePage
